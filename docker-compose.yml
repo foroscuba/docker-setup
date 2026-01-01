@@ -5,6 +5,7 @@ services:
       - "18580:8080"
     volumes:
       - ./web:/var/www/html
+      - ./Caddyfile:/etc/caddy/Caddyfile
     environment:
       PHP_MEMORY_LIMIT: "512M"
       PHP_MAX_EXECUTION_TIME: "120"

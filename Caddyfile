@@ -1,0 +1,26 @@
+{
+    frankenphp
+}
+
+:8080 {
+    root * /var/www/html
+
+    # Internal only - block access to sensitive directories
+    @internal path /install/data/* /install/templates/* /internal_data/* /library/* /src/*
+    error @internal 404
+
+    # Add trailing slash for directory requests
+    @canonicalPath {
+        file {path}/index.php
+        not path */
+    }
+    redir @canonicalPath {path}/ 308
+
+    try_files {path} {path}/index.php /index.php?{path}&{query}
+
+    @phpFiles path *.php
+    php @phpFiles
+    file_server
+
+    encode zstd gzip
+}
