@@ -27,6 +27,8 @@ services:
   mariadb:
     image: mariadb:11.8
     restart: unless-stopped
+    ports:
+      - "13306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
     environment:
