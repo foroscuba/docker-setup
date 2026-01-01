@@ -1,0 +1,22 @@
+services:
+  php:
+    build: .
+    ports:
+      - "18580:8080"
+    volumes:
+      - ./web:/var/www/html
+    environment:
+      PHP_MEMORY_LIMIT: "512M"
+      PHP_MAX_EXECUTION_TIME: "120"
+      PHP_MAX_INPUT_TIME: "120"
+      PHP_MAX_INPUT_VARS: "10000"
+      PHP_UPLOAD_MAX_FILE_SIZE: "256M"
+      PHP_POST_MAX_SIZE: "256M"
+      PHP_OPCACHE_ENABLE: "1"
+      PHP_OPCACHE_MEMORY_CONSUMPTION: "256"
+      PHP_OPCACHE_MAX_ACCELERATED_FILES: "20000"
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: "0"
+      PHP_DISPLAY_ERRORS: "Off"
+      PHP_SESSION_COOKIE_SECURE: "1"
+      PHP_SESSION_COOKIE_HTTPONLY: "1"
+      TZ: "America/New_York"
