@@ -1,5 +1,8 @@
+name: xenforo
+
 services:
   php:
+    container_name: xenforo-php
     build: .
     ports:
       - "18580:8080"
@@ -25,6 +28,7 @@ services:
       - mariadb
 
   mariadb:
+    container_name: xenforo-mariadb
     image: mariadb:11.8
     restart: unless-stopped
     ports:
