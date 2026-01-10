@@ -16,7 +16,6 @@ docker-compose up -d
 
 - `Dockerfile` - PHP 8.4 with FPM-NGINX and extensions
 - `docker-compose.yml` - Service definitions
-- `nginx/xenforo.conf` - NGINX configuration for XenForo
 - `.env.example` - Environment template
 
 ## Services
