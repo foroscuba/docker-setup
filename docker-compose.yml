@@ -65,8 +65,8 @@ services:
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=false
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      - ES_JAVA_OPTS=${ES_JAVA_OPTS}
-    mem_limit: 1g
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+    mem_limit: 4g
 
 volumes:
   mariadb_data:
