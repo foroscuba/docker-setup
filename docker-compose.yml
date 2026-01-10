@@ -4,6 +4,7 @@ services:
   php:
     container_name: xenforo-php
     build: .
+    restart: unless-stopped
     ports:
       - "18580:8080"
     volumes:
@@ -28,7 +29,6 @@ services:
       - mariadb
       - redis
       - elasticsearch
-    restart: unless-stopped
 
   mariadb:
     container_name: xenforo-mariadb
@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
     volumes:
       - redis_data:/data
-    command: redis-server --appendonly yes
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
 
   elasticsearch:
     container_name: xenforo-elasticsearch
@@ -62,7 +62,7 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_JAVA_OPTS=${ES_JAVA_OPTS}
     mem_limit: 1g
 
 volumes:
