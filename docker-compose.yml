@@ -8,7 +8,7 @@ services:
       - "18580:8080"
     volumes:
       - ./web:/var/www/html
-      - ./Caddyfile:/etc/frankenphp/Caddyfile
+      - ./nginx/xenforo.conf:/etc/nginx/conf.d/xenforo.conf:ro
     environment:
       PHP_MEMORY_LIMIT: "512M"
       PHP_MAX_EXECUTION_TIME: "120"
@@ -23,9 +23,11 @@ services:
       PHP_DISPLAY_ERRORS: "Off"
       PHP_SESSION_COOKIE_SECURE: "1"
       PHP_SESSION_COOKIE_HTTPONLY: "1"
+      SSL_MODE: "off"
       TZ: "America/New_York"
     depends_on:
       - mariadb
+    restart: unless-stopped
 
   mariadb:
     container_name: xenforo-mariadb

@@ -14,14 +14,14 @@ docker-compose up -d
 
 ## Structure
 
-- `Dockerfile` - PHP 8.3 with FrankenPHP and extensions
+- `Dockerfile` - PHP 8.4 with FPM-NGINX and extensions
 - `docker-compose.yml` - Service definitions
-- `Caddyfile` - Web server configuration
+- `nginx/xenforo.conf` - NGINX configuration for XenForo
 - `.env.example` - Environment template
 
 ## Services
 
 | Service | Port |
 |---------|------|
-| PHP/Caddy | 18580 |
+| PHP/NGINX | 18580 |
 | MariaDB | 13306 |
