@@ -26,6 +26,8 @@ services:
       TZ: "America/New_York"
     depends_on:
       - mariadb
+      - redis
+      - elasticsearch
     restart: unless-stopped
 
   mariadb:
@@ -43,5 +45,27 @@ services:
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       TZ: "America/New_York"
 
+  redis:
+    container_name: xenforo-redis
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  elasticsearch:
+    container_name: xenforo-elasticsearch
+    image: elasticsearch:8.17.0
+    restart: unless-stopped
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    mem_limit: 1g
+
 volumes:
   mariadb_data:
+  redis_data:
+  elasticsearch_data:

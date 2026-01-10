@@ -20,7 +20,9 @@ docker-compose up -d
 
 ## Services
 
-| Service | Port |
-|---------|------|
-| PHP/NGINX | 18580 |
-| MariaDB | 13306 |
+| Service | Port | Notes |
+|---------|------|-------|
+| PHP/NGINX | 18580 | Web server |
+| MariaDB | 13306 | Database |
+| Redis | internal | Cache/sessions |
+| Elasticsearch | internal | Enhanced search |
