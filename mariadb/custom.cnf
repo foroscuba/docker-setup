@@ -1,13 +1,13 @@
 [mysqld]
-# Buffer pool: 8GB para DB de 5GB
+# Buffer pool: 8GB for 5GB database
 innodb_buffer_pool_size = 8G
 innodb_buffer_pool_instances = 8
 
-# Cargar buffer pool al iniciar
+# Load buffer pool on startup
 innodb_buffer_pool_load_at_startup = ON
 innodb_buffer_pool_dump_at_shutdown = ON
 
-# Rendimiento (puede perder hasta 1 segundo en crash)
+# Performance (may lose up to 1 second on crash)
 innodb_flush_log_at_trx_commit = 2
 innodb_flush_method = O_DIRECT
 
@@ -15,13 +15,13 @@ innodb_flush_method = O_DIRECT
 innodb_log_file_size = 1G
 innodb_log_buffer_size = 256M
 
-# Conexiones
+# Connections
 max_connections = 200
 thread_cache_size = 50
 
-# Temp tables en RAM
+# Temp tables in RAM
 tmp_table_size = 512M
 max_heap_table_size = 512M
 
-# Desactivar performance schema (ahorra RAM)
+# Disable performance schema (saves RAM)
 performance_schema = OFF
