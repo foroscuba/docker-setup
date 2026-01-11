@@ -26,9 +26,6 @@ services:
       PHP_SESSION_COOKIE_HTTPONLY: "1"
       SSL_MODE: "off"
       TZ: "America/New_York"
-    # Pin to NUMA node 0 (physical cores only)
-    cpuset: "0-17"
-    mem_limit: 4g
     depends_on:
       - mariadb
       - redis
@@ -49,9 +46,6 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       TZ: "America/New_York"
-    # Pin to NUMA node 0 - 8 physical cores for DB
-    cpuset: "0-7"
-    mem_limit: 16g
 
   redis:
     container_name: xenforo-redis
@@ -59,11 +53,7 @@ services:
     restart: unless-stopped
     volumes:
       - redis_data:/data
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
-    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASSWORD}
-    # Pin to NUMA node 0
-    cpuset: "8-9"
-    mem_limit: 2g
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
 
   elasticsearch:
     container_name: xenforo-elasticsearch
@@ -77,8 +67,6 @@ services:
       - xpack.security.http.ssl.enabled=false
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
-    # Pin to NUMA node 0
-    cpuset: "10-13"
     mem_limit: 4g
 
 volumes:
