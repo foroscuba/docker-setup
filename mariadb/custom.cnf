@@ -1,13 +1,8 @@
 [mysqld]
 # ===========================================
-# NUMA & Memory Optimization
+# Buffer Pool (entire DB in RAM)
 # ===========================================
-# Disable NUMA interleave - keep memory on local node
-innodb_numa_interleave = OFF
-
-# Buffer pool: 8GB for 5GB database (entire DB in RAM)
 innodb_buffer_pool_size = 8G
-innodb_buffer_pool_instances = 8
 
 # Load buffer pool on startup for instant performance
 innodb_buffer_pool_load_at_startup = ON
@@ -20,7 +15,6 @@ innodb_buffer_pool_dump_pct = 100
 # Flush every second, not every commit (may lose 1 sec on crash)
 innodb_flush_log_at_trx_commit = 2
 sync_binlog = 0
-innodb_flush_method = O_DIRECT
 innodb_doublewrite = ON
 
 # Redo log - larger = fewer checkpoints
@@ -57,7 +51,7 @@ read_buffer_size = 2M
 read_rnd_buffer_size = 2M
 
 # ===========================================
-# Table & Query Cache
+# Table Cache
 # ===========================================
 table_open_cache = 4000
 table_definition_cache = 2000
