@@ -1,0 +1,4 @@
+# XenForo job runner - runs every minute
+* * * * * root cd /var/www/html/public && /usr/local/bin/php cmd.php xf:run-jobs >> /var/log/xenforo-cron.log 2>&1
+
+# Empty line required at end of crontab
