@@ -3,51 +3,48 @@
 default_storage_engine = InnoDB
 innodb_file_per_table = 1
 
-# Buffer pool: 8GB for 5GB database
-innodb_buffer_pool_size = 8G
+# Buffer pool: 16GB (entire DB + indexes + room to grow)
+innodb_buffer_pool_size = 16G
 innodb_buffer_pool_load_at_startup = ON
 innodb_buffer_pool_dump_at_shutdown = ON
 
-# Transaction logging (2 = flush every second)
+# Transaction logging
 innodb_flush_log_at_trx_commit = 2
 
-# Log file size
-innodb_log_file_size = 512M
-innodb_log_buffer_size = 64M
+# Log buffers (bigger = faster writes)
+innodb_log_file_size = 1G
+innodb_log_buffer_size = 256M
 
-# SSD optimizations
+# SSD optimizations (max performance)
 innodb_read_io_threads = 64
 innodb_write_io_threads = 64
-innodb_io_capacity = 2000
-innodb_io_capacity_max = 4000
+innodb_io_capacity = 10000
+innodb_io_capacity_max = 20000
 innodb_flush_neighbors = 0
 
-# Temp tables in RAM (for complex queries)
-tmp_table_size = 256M
-max_heap_table_size = 256M
+# Temp tables in RAM (bigger = complex queries stay in RAM)
+tmp_table_size = 1G
+max_heap_table_size = 1G
 
-# Buffers for sorting/joining
-sort_buffer_size = 4M
-join_buffer_size = 4M
-read_buffer_size = 2M
-read_rnd_buffer_size = 2M
+# Buffers for sorting/joining (bigger = faster)
+sort_buffer_size = 16M
+join_buffer_size = 16M
+read_buffer_size = 8M
+read_rnd_buffer_size = 8M
 
-# Table cache
-table_open_cache = 4000
-table_definition_cache = 2000
+# Table cache (bigger = less disk access)
+table_open_cache = 8000
+table_definition_cache = 4000
 
 # Thread cache
-thread_cache_size = 100
+thread_cache_size = 200
 
-# Character set (required for XenForo)
+# Character set
 character-set-server = utf8mb4
 collation-server = utf8mb4_general_ci
 
 # Connections
-max_connections = 100
+max_connections = 200
 
 # Skip DNS lookups
 skip_name_resolve = ON
-
-# Disable performance schema (saves RAM)
-performance_schema = OFF
