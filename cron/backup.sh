@@ -16,17 +16,31 @@ mkdir -p "${BACKUP_DIR}/files"
 
 # Database backup
 echo "[$(date)] Starting database backup..."
+DB_FILE="${BACKUP_DIR}/database/xenforo_db_${DATE}.sql.gz"
 mariadb-dump -h "${DB_HOST}" -u "${DB_USER}" -p"${DB_PASS}" \
     --single-transaction --quick --lock-tables=false \
-    "${DB_NAME}" | gzip > "${BACKUP_DIR}/database/xenforo_db_${DATE}.sql.gz"
-echo "[$(date)] Database backup completed: xenforo_db_${DATE}.sql.gz"
+    "${DB_NAME}" | gzip -1 > "${DB_FILE}"
 
-# Files backup (internal_data and data folders - user uploads)
+# Verify database backup
+if [ ! -s "${DB_FILE}" ]; then
+    echo "[$(date)] ERROR: Database backup failed - file is empty"
+    rm -f "${DB_FILE}"
+    exit 1
+fi
+echo "[$(date)] Database backup completed: $(basename ${DB_FILE}) ($(du -h ${DB_FILE} | cut -f1))"
+
+# Files backup (entire public folder)
 echo "[$(date)] Starting files backup..."
-tar -czf "${BACKUP_DIR}/files/xenforo_files_${DATE}.tar.gz" \
-    -C /var/www/html \
-    internal_data data 2>/dev/null || true
-echo "[$(date)] Files backup completed: xenforo_files_${DATE}.tar.gz"
+FILES_FILE="${BACKUP_DIR}/files/xenforo_files_${DATE}.tar.gz"
+tar -czf "${FILES_FILE}" -C /var/www/html public
+
+# Verify files backup
+if ! tar -tzf "${FILES_FILE}" > /dev/null 2>&1; then
+    echo "[$(date)] ERROR: Files backup failed - archive is corrupt"
+    rm -f "${FILES_FILE}"
+    exit 1
+fi
+echo "[$(date)] Files backup completed: $(basename ${FILES_FILE}) ($(du -h ${FILES_FILE} | cut -f1))"
 
 # Cleanup old backups
 echo "[$(date)] Cleaning up backups older than ${RETENTION_DAYS} days..."
