@@ -75,9 +75,11 @@ services:
     restart: unless-stopped
     volumes:
       - ./web:/var/www/html
+      - ./daily_backup:/backups
     environment:
       TZ: "America/New_York"
       PHP_MEMORY_LIMIT: "512M"
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
     depends_on:
       - php
       - mariadb
