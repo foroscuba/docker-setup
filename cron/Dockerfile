@@ -11,17 +11,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy crontab and backup script
+# Copy crontab, backup script, and entrypoint
 COPY crontab /etc/cron.d/xenforo-cron
 COPY backup.sh /usr/local/bin/backup.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Set proper permissions
 RUN chmod 0644 /etc/cron.d/xenforo-cron \
     && chmod +x /usr/local/bin/backup.sh \
+    && chmod +x /usr/local/bin/entrypoint.sh \
     && crontab /etc/cron.d/xenforo-cron
 
 # Create log file
 RUN touch /var/log/cron.log
 
-# Run cron in foreground
-CMD ["cron", "-f"]
+# Run entrypoint (exports env vars then starts cron)
+CMD ["/usr/local/bin/entrypoint.sh"]

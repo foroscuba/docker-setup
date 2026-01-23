@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Load environment variables (for cron)
+if [ -f /etc/environment ]; then
+    export $(cat /etc/environment | xargs)
+fi
+
 # Configuration
 BACKUP_DIR="/backups"
 RETENTION_DAYS=14
